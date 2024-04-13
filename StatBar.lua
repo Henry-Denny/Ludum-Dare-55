@@ -32,11 +32,22 @@ function StatBar:new(pos_x, pos_y, width, height, colour, text)
 	return setmetatable(newObj, self)
 end
 
-function StatBar:draw()
+---@param current integer The currnet value of the stat being displayed (e.g. `player.health`)
+---@param max integer The maximum value the stat can be (e.g. `player.max_health)
+function StatBar:draw(current, max)
+	local ratio = current / max
 	local bg = StatBar.border.colour
+	local pad = StatBar.border.padding
+
+	-- Border
 	love.graphics.setColor(bg.r, bg.g, bg.b)
 	love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.size.w, self.size.h)
+	-- Bar shadow
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.rectangle("fill", self.pos.x + pad, self.pos.y + pad, self.size.w - (pad * 2),
+		self.size.h - (pad * 2))
+	-- Bar
 	love.graphics.setColor(self.colour.r, self.colour.g, self.colour.b)
-	local pad = StatBar.border.padding
-	love.graphics.rectangle("fill", self.pos.x + pad, self.pos.y + pad, self.size.w - pad * 2, self.size.h - pad * 2)
+	love.graphics.rectangle("fill", self.pos.x + pad, self.pos.y + pad, self.size.w * ratio - (pad * 2),
+		self.size.h - (pad * 2))
 end
