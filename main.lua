@@ -16,4 +16,7 @@ end
 
 function love.draw()
 	player:draw()
+
+	-- Add FPS to top right of screen for debugging purposes
+	love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
 end
