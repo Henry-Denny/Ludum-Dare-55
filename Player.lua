@@ -6,9 +6,15 @@ function Player()
 	local SPRITE_SIZE = 32
 
 	return {
+		--[[ PROPERTIES ]]
 		pos = { x = 0, y = 0 },
 		speed = 200,
+		max_health = 100,
+		health = 100, -- TODO: Find a better way to set two variables to same value
+		max_mana = 100,
+		mana = 100,
 
+		--[[ METHODS ]]
 		draw = function(self)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.circle(
