@@ -1,4 +1,7 @@
 -- INFO: This is a special configuration file that is run before the other LÖVE modules are loaded.
+
+_G.love = require "love"
+
 function love.conf(app)
 	-- Version of the game
 	-- t.version = "1.0.0"
