@@ -4,28 +4,15 @@ love = require "love"
 require("StatBar")
 
 local Player = require "Player"
-local Display = require "Display"
+local Hud = require "Hud"
 
-
+-- [[ LÖVE callbacks ]]
 function love.load()
 	mouse = { x = 0, y = 0 }
 
 	player = Player()
 
-	local window = Display.window
-	local hud = Display.hud
-	health_bar = StatBar:new(
-		window.width - (hud.statbar.width + hud.padding), hud.padding,
-		hud.statbar.width, hud.statbar.height,
-		{ 1, 0, 0 },
-		"Health"
-	)
-	mana_bar = StatBar:new(
-		window.width - (hud.statbar.width + hud.padding), hud.padding + hud.spacing,
-		hud.statbar.width, hud.statbar.height,
-		{ 0, 0, 1 },
-		"Mana"
-	)
+	hud = Hud()
 end
 
 function love.update(dt)
@@ -35,9 +22,7 @@ end
 
 function love.draw()
 	player:draw()
-	health_bar:draw(80, 100)
-	mana_bar:draw(40, 100)
-
+	hud:draw(player.health, player.max_health, player.mana, player.max_mana)
 	-- Add FPS to top right of screen for debugging purposes
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
