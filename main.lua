@@ -6,6 +6,9 @@ require("StatBar")
 local Player = require "Player"
 local Camera = require "Camera"
 local Hud = require "Hud"
+local TilePlacer = require "TilePlacer"
+
+val = 1
 
 -- [[ LÖVE callbacks ]]
 function love.load()
@@ -14,6 +17,7 @@ function love.load()
 	player = Player()
 	camera = Camera()
 	hud = Hud()
+	tileplacer = TilePlacer()
 
 	hp_gem = love.graphics.newImage("/Assets/Icons/hp-gem.png") -- Will clean up these later into Hud function
 	mana_gem = love.graphics.newImage("/Assets/Icons/mana-gem.png")
@@ -34,9 +38,11 @@ function love.wheelmoved(x, y)
 end
 
 function love.draw()
+	--tileplacer:tilegen(player.pos.x, player.pos.y)
 	camera:set()
 	player:draw()
 	camera:unset()
+
 	-- Draw health and mana bars
 	hud:draw(player.health, player.max_health, player.mana, player.max_mana)
 

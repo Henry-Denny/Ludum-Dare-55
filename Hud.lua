@@ -2,8 +2,6 @@
 
 _G.love = require "love"
 
-require "StatBar"
-
 Display = require "Display"
 
 function Hud()
