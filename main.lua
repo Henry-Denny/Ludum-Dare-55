@@ -31,7 +31,6 @@ function love.wheelmoved(x, y)
 end
 
 function love.draw()
-	camera:set_position(player.pos.x, player.pos.y)
 	camera:set()
 	player:draw()
 	camera:unset()
