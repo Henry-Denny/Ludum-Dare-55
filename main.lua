@@ -4,41 +4,58 @@ love = require "love"
 require("StatBar")
 
 local Player = require "Player"
-local Display = require "Display"
+local Camera = require "Camera"
+local Hud = require "Hud"
 
-
+-- [[ LÖVE callbacks ]]
 function love.load()
 	mouse = { x = 0, y = 0 }
 
 	player = Player()
+	camera = Camera()
+	hud = Hud()
 
-	local window = Display.window
-	local hud = Display.hud
-	health_bar = StatBar:new(
-		window.width - (hud.statbar.width + hud.padding), hud.padding,
-		hud.statbar.width, hud.statbar.height,
-		{ 1, 0, 0 },
-		"Health"
-	)
-	mana_bar = StatBar:new(
-		window.width - (hud.statbar.width + hud.padding), hud.padding + hud.spacing,
-		hud.statbar.width, hud.statbar.height,
-		{ 0, 0, 1 },
-		"Mana"
-	)
+	hp_gem = love.graphics.newImage("/Assets/Icons/hp-gem.png") -- Will clean up these later into Hud function
+	mana_gem = love.graphics.newImage("/Assets/Icons/mana-gem.png")
 end
 
 function love.update(dt)
-	mouse.x, mouse.y = love.mouse.getPosition()
+	mouse.x, mouse.y = camera:mouse_position()
 	player:move(dt)
+	camera:set_position(player.pos.x, player.pos.y)
+
+	if love.keyboard.isDown("escape") then
+		love.event.quit( 0 )
+	end
+end
+
+function love.wheelmoved(x, y)
+	if y > 0 then
+		camera:zoom(1 / camera.zoom_scale, 1 / camera.zoom_scale)
+	else
+		camera:zoom(camera.zoom_scale, camera.zoom_scale)
+	end
 end
 
 function love.draw()
+	camera:set()
 	player:draw()
-	health_bar:draw(80, 100)
-	mana_bar:draw(40, 100)
+	camera:unset()
+	-- Draw health and mana bars
+	hud:draw(player.health, player.max_health, player.mana, player.max_mana)
 
 	-- Add FPS to top right of screen for debugging purposes
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+	love.graphics.print(
+		"player pos: (" .. player.pos.x .. ", " .. player.pos.y .. ")",
+		10, 30
+	)
+	love.graphics.print(
+		"mouse pos: (" .. mouse.x .. ", " .. mouse.y .. ")",
+		10, 50
+	)
+
+	love.graphics.draw(hp_gem, 1005, 18) --Will clean up these later into Hud function
+	love.graphics.draw(mana_gem, 1005, 57)
 end
