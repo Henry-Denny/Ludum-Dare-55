@@ -22,7 +22,9 @@ end
 
 function love.draw()
 	player:draw()
+	-- Draw health and mana bars
 	hud:draw(player.health, player.max_health, player.mana, player.max_mana)
+
 	-- Add FPS to top right of screen for debugging purposes
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
