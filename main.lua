@@ -14,6 +14,9 @@ function love.load()
 	player = Player()
 	camera = Camera()
 	hud = Hud()
+
+	hp_gem = love.graphics.newImage("/Assets/Icons/hp-gem.png") -- Will clean up these later into Hud function
+	mana_gem = love.graphics.newImage("/Assets/Icons/mana-gem.png")
 end
 
 function love.update(dt)
@@ -48,4 +51,7 @@ function love.draw()
 		"mouse pos: (" .. mouse.x .. ", " .. mouse.y .. ")",
 		10, 50
 	)
+
+	love.graphics.draw(hp_gem, 1005, 18) --Will clean up these later into Hud function
+	love.graphics.draw(mana_gem, 1005, 57)
 end
