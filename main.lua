@@ -42,7 +42,7 @@ function love.wheelmoved(x, y)
 end
 
 function love.draw()
-	--tileplacer:tilegen(player.pos.x, player.pos.y)
+	tileplacer:tilegen(player.pos.x, player.pos.y)
 	camera:set()
 	player:draw()
 	camera:unset()
