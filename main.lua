@@ -20,9 +20,13 @@ function love.load()
 end
 
 function love.update(dt)
-	camera:set_position(player.pos.x, player.pos.y)
 	mouse.x, mouse.y = camera:mouse_position()
 	player:move(dt)
+	camera:set_position(player.pos.x, player.pos.y)
+
+	if love.keyboard.isDown("escape") then
+		love.event.quit( 0 )
+	end
 end
 
 function love.wheelmoved(x, y)
