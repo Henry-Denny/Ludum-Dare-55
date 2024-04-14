@@ -13,6 +13,8 @@ function Player()
 	local first_sprite = love.graphics.newQuad(0, 0, sprite_width, sprite_height, sprite_sheet)
 
 	local direction = "up"
+	local rotation = 0
+
 	return {
 		--[[ PROPERTIES ]]
 		pos = { x = 0, y = 0 },
@@ -31,6 +33,14 @@ function Player()
 				self.pos.y,
 				SPRITE_SIZE
 			)
+			love.graphics.setColor(1, 0, 0)
+
+			love.graphics.circle(
+				"fill",
+				self.pos.x,
+				self.pos.y,
+				1
+			)
 
 			local sprite_pick = first_sprite
 			local x_scale, y_scale = 2, 2
@@ -38,26 +48,23 @@ function Player()
 			local x_shift  = sprite_width * x_scale / 2
 			local y_shift  = sprite_height * y_scale / 2
 
-			local x_origin = self.pos.x
-			local y_origin = self.pos.y
+			local diagonal_dist = math.sqrt( x_shift * x_shift + y_shift *y_shift)
+
 			local rotation = 0
+			-- rotation = rotation + 0.01
 			if direction == "up" then
 				rotation = 0
-				x_origin = self.pos.x - x_shift
-				y_origin = self.pos.y - y_shift
 			elseif direction == "right" then
 				rotation = 1
-				x_origin = self.pos.x + x_shift
-				y_origin = self.pos.y - y_shift
 			elseif direction == "down" then
 				rotation = 2
-				x_origin = self.pos.x + x_shift
-				y_origin = self.pos.y + y_shift
 			elseif direction == "left" then 
 				rotation = 3
-				x_origin = self.pos.x - x_shift
-				y_origin = self.pos.y + y_shift
 			end
+			
+			-- calculate arbitrary rotation
+			local x_origin = self.pos.x - diagonal_dist * math.cos(math.pi*0.25 + math.pi*rotation/2)
+			local y_origin = self.pos.y - diagonal_dist * math.sin(math.pi*0.25 + math.pi*rotation/2)
 
 			love.graphics.draw(sprite_sheet, sprite_pick, x_origin, y_origin, math.pi * rotation/2, x_scale, y_scale)
 		end,
