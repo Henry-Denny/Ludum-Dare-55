@@ -2,10 +2,14 @@
 
 _G.love = require("love")
 
-local function get_quads(sprite_size, sprite_count)
-	quads = {}
+---@param sheet love.Drawable
+---@param sprite_size integer
+---@param sprite_count integer
+local function get_quads(sheet, sprite_size, sprite_count)
+	local quads = {}
 	for i = 1, sprite_count do
-		quads[i] = love.graphics.newQuad(sprite_size * (i - 1), 0, sprite_size, sprite_size, sprite_size, sprite_size)
+		local quad = love.graphics.newQuad(sprite_size * (i - 1), 0, sprite_size, sprite_size, sheet)
+		table.insert(quads, quad)
 	end
 	return quads
 end
@@ -24,11 +28,12 @@ SpriteSheet = {}
 ---@param sprite_count? integer The number of sprites in the sprite sheet (defaults to 1)
 function SpriteSheet:new(path, sprite_size, sprite_count)
 	sprite_count = sprite_count or 1
+	local img = love.graphics.newImage(path)
 	newObj = {
-		image = love.graphics.newImage(path),
+		image = img,
 		sprite_size = sprite_size,
 		sprite_count = sprite_count,
-		quads = get_quads(sprite_size, sprite_size),
+		quads = get_quads(img, sprite_size, sprite_count),
 	}
 	self.__index = self
 	return setmetatable(newObj, self)
@@ -39,5 +44,7 @@ end
 ---@param pos_y integer
 -- Draws a specific quad from the sprite sheet
 function SpriteSheet:draw_sprite(sprite_index, pos_x, pos_y)
-	love.graphics.draw(self.image, quads[sprite_index], pos_x, pos_y)
+	---@type love.Quad
+	local quad = self.quads[sprite_index]
+	love.graphics.draw(self.image, quad, pos_x, pos_y)
 end
