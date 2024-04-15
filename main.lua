@@ -1,12 +1,14 @@
 ---@diagnostic disable: lowercase-global
-love = require "love"
+---@module "Tower"
+love = require("love")
 
 require("StatBar")
+require("Tower")
 
-local Player = require "Player"
-local Camera = require "Camera"
-local Hud = require "Hud"
-local TilePlacer = require "TilePlacer"
+local Player = require("Player")
+local Camera = require("Camera")
+local Hud = require("Hud")
+local TilePlacer = require("TilePlacer")
 
 val = 1
 
@@ -15,6 +17,8 @@ function love.load()
 	mouse = { x = 0, y = 0 }
 
 	player = Player()
+	towers = {}
+	table.insert(towers, Tower:new(0, 0, 2))
 	camera = Camera()
 	hud = Hud()
 	tileplacer = TilePlacer()
@@ -29,7 +33,7 @@ function love.update(dt)
 	camera:set_position(player.pos.x, player.pos.y)
 
 	if love.keyboard.isDown("escape") then
-		love.event.quit( 0 )
+		love.event.quit(0)
 	end
 end
 
@@ -42,9 +46,13 @@ function love.wheelmoved(x, y)
 end
 
 function love.draw()
-	tileplacer:tilegen(player.pos.x, player.pos.y)
 	camera:set()
+	tileplacer:tilegen(player.pos.x, player.pos.y)
 	player:draw()
+	for i = 1, #towers do
+		towers[i]:draw()
+	end
+	love.graphics.rectangle("line", 0, 0, 32, 32)
 	camera:unset()
 
 	-- Draw health and mana bars
@@ -53,14 +61,8 @@ function love.draw()
 	-- Add FPS to top right of screen for debugging purposes
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
-	love.graphics.print(
-		"player pos: (" .. player.pos.x .. ", " .. player.pos.y .. ")",
-		10, 30
-	)
-	love.graphics.print(
-		"mouse pos: (" .. mouse.x .. ", " .. mouse.y .. ")",
-		10, 50
-	)
+	love.graphics.print("player pos: (" .. player.pos.x .. ", " .. player.pos.y .. ")", 10, 30)
+	love.graphics.print("mouse pos: (" .. mouse.x .. ", " .. mouse.y .. ")", 10, 50)
 
 	love.graphics.draw(hp_gem, 1005, 18) --Will clean up these later into Hud function
 	love.graphics.draw(mana_gem, 1005, 57)
