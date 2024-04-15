@@ -44,6 +44,14 @@ function Player()
 				rotation = 2
 			elseif direction == "left" then
 				rotation = 3
+			elseif direction == "up" and direction == "right" then
+				rotation = 0.5
+			elseif direction == "right" and direction == "down" then
+				rotation = 1.5
+			elseif direction == "down" and direction == "left" then
+				rotation = 2.5
+			elseif direction == "left" and direction == "up" then
+				rotation = 3.5
 			end
 
 			-- calculate arbitrary rotation
