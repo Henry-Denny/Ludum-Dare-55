@@ -35,19 +35,14 @@ function Tower:draw()
 		x = self.pos.x * CELL_SIZE,
 		y = self.pos.y * CELL_SIZE,
 	}
-	local world_size = {
-		x = self.size * CELL_SIZE,
-		y = self.size * CELL_SIZE,
-	}
+	local world_size = self.size * CELL_SIZE
 	-- Display functional / distroyed castle based on current state
+	love.graphics.setColor(0.1, 0.1, 0.1)
+	love.graphics.circle("fill", world_pos.x + world_size / 2, world_pos.y + world_size / 2, world_size / 2 + 15)
 	if not self.destroyed then
-		love.graphics.setColor(1, 0, 0)
-		love.graphics.rectangle("line", world_pos.x, world_pos.y, world_size.x, world_size.y)
 		love.graphics.setColor(1, 1, 1)
 		self.sprites:draw_sprite(1, world_pos.x, world_pos.y)
 	else
-		love.graphics.setColor(0.2, 0.2, 0.2)
-		love.graphics.rectangle("line", world_pos.x, world_pos.y, world_size.x, world_size.y)
 		love.graphics.setColor(1, 1, 1)
 		self.sprites:draw_sprite(2, world_pos.x, world_pos.y)
 	end

@@ -29,6 +29,7 @@ SpriteSheet = {}
 function SpriteSheet:new(path, sprite_size, sprite_count)
 	sprite_count = sprite_count or 1
 	local img = love.graphics.newImage(path)
+	img:setFilter("nearest", "nearest")
 	newObj = {
 		image = img,
 		sprite_size = sprite_size,

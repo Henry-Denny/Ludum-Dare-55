@@ -19,8 +19,7 @@ function love.load()
 	mouse = { x = 0, y = 0 }
 
 	player = Player()
-	towers = {}
-	table.insert(towers, Tower:new(0, 0, 2))
+	towers = { Tower:new(0, 0, 2), Tower:new(10, 15, 2), Tower:new(25, 5, 2) }
 	camera = Camera()
 	hud = Hud()
 	tileplacer = TilePlacer()
@@ -50,10 +49,10 @@ end
 function love.draw()
 	camera:set()
 	tileplacer:tilegen(0, 0)
-	player:draw()
 	for i = 1, #towers do
 		towers[i]:draw()
 	end
+	player:draw()
 	camera:unset()
 
 	-- Draw health and mana bars
