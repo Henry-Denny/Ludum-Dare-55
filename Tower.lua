@@ -13,7 +13,7 @@ _G.CELL_SIZE = 32
 ---@field size integer
 ---@field destroyed boolean
 Tower = {
-	sprites = SpriteSheet:new("Assets/SS-Player/Wizard facing up.png", 32, 1),
+	sprites = SpriteSheet:new("/Assets/Tower files/Tower.png", 64, 1),
 }
 
 ---@param grid_pos_x integer
@@ -35,10 +35,20 @@ function Tower:draw()
 		x = self.pos.x * CELL_SIZE,
 		y = self.pos.y * CELL_SIZE,
 	}
+	local world_size = {
+		x = self.size * CELL_SIZE,
+		y = self.size * CELL_SIZE,
+	}
 	-- Display functional / distroyed castle based on current state
 	if not self.destroyed then
+		love.graphics.setColor(1, 0, 0)
+		love.graphics.rectangle("line", world_pos.x, world_pos.y, world_size.x, world_size.y)
+		love.graphics.setColor(1, 1, 1)
 		self.sprites:draw_sprite(1, world_pos.x, world_pos.y)
 	else
+		love.graphics.setColor(0.2, 0.2, 0.2)
+		love.graphics.rectangle("line", world_pos.x, world_pos.y, world_size.x, world_size.y)
+		love.graphics.setColor(1, 1, 1)
 		self.sprites:draw_sprite(2, world_pos.x, world_pos.y)
 	end
 end

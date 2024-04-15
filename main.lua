@@ -14,6 +14,8 @@ val = 1
 
 -- [[ LÖVE callbacks ]]
 function love.load()
+	love.graphics.setLineStyle("rough")
+	love.graphics.setDefaultFilter("nearest", "nearest", 1)
 	mouse = { x = 0, y = 0 }
 
 	player = Player()
@@ -47,12 +49,11 @@ end
 
 function love.draw()
 	camera:set()
-	tileplacer:tilegen(player.pos.x, player.pos.y)
+	tileplacer:tilegen(0, 0)
 	player:draw()
 	for i = 1, #towers do
 		towers[i]:draw()
 	end
-	love.graphics.rectangle("line", 0, 0, 32, 32)
 	camera:unset()
 
 	-- Draw health and mana bars
